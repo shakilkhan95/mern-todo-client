@@ -1,119 +1,78 @@
-"use client";
-import { Check } from "@gravity-ui/icons";
-import {
-  Button,
-  Description,
-  FieldError,
-  Form,
-  Input,
-  Label,
-  TextField,
-} from "@heroui/react";
+import { ArrowRight } from "@gravity-ui/icons";
 import Link from "next/link";
-import { FcGoogle } from "react-icons/fc";
-import { authClient } from "../lib/auth-client";
-import { toast } from "react-toastify";
 
-const onSubmit = async (e) => {
-  e.preventDefault();
-  const formData = new FormData(e.target);
-  const submittedData = Object.fromEntries(formData.entries());
-  const { name, email, password, image } = submittedData;
-
-  const { data, error } = await authClient.signUp.email({
-    name,
-    email,
-    password,
-    image,
-  });
-  console.log("Sign up response:", { data, error });
-  if(error){
-    toast.error(error.message);
-  } else{
-    toast.success("Sign up successful!");
-    redirect("/signin");
-  }
-};
 
 export default function Home() {
   return (
-    <div>
-      <Form
-        onSubmit={onSubmit}
-        className="flex w-10/12 max-w-lg mx-auto m-28 border p-4 rounded-md shadow-md bg-slate-50 flex-col gap-4"
-      >
-        <h1 className="text-xl font-semibold">Sign Up</h1>
-        <TextField isRequired name="name" type="text">
-          <Label>Name</Label>
-          <Input placeholder="Enter Your Name Here" />
-          <FieldError />
-        </TextField>
-        <TextField
-          isRequired
-          name="email"
-          type="email"
-          validate={(value) => {
-            if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) {
-              return "Please enter a valid email address";
-            }
-            return null;
-          }}
-        >
-          <Label>Email</Label>
-          <Input placeholder="Enter Your Email Here" />
-          <FieldError />
-        </TextField>
-        <TextField
-          isRequired
-          minLength={8}
-          name="password"
-          type="password"
-          validate={(value) => {
-            if (value.length < 8) {
-              return "Password must be at least 8 characters";
-            }
-            if (!/[A-Z]/.test(value)) {
-              return "Password must contain at least one uppercase letter";
-            }
-            if (!/[0-9]/.test(value)) {
-              return "Password must contain at least one number";
-            }
-            return null;
-          }}
-        >
-          <Label>Password</Label>
-          <Input placeholder="Enter your password" />
-          <Description>
-            Must be at least 8 characters with 1 uppercase and 1 number
-          </Description>
-          <FieldError />
-        </TextField>
-        <TextField isRequired name="image" type="url">
-          <Label>Image URL</Label>
-          <Input placeholder="Enter Your Image URL Here" />
-          <FieldError />
-        </TextField>
-        <div className="flex items-center justify-center flex-col gap-4 mt-2">
-          <Button className="rounded-none w-full" type="submit">
-            <Check />
-            Sign Up
-          </Button>
-          <p>
-            Already have an account?{" "}
-            <Link
-              href={"/signin"}
-              className="underline text-blue-500 font-medium"
-            >
-              Sign In here
-            </Link>
-          </p>
+    <section className="mx-auto grid max-w-7xl items-center gap-16 px-6 py-20 md:grid-cols-2 md:px-12 md:py-28">
+      <div>
+        <span className="mb-6 inline-block rounded-full bg-indigo-100 px-4 py-2 text-sm font-medium text-indigo-700">
+          ✨ Your productivity partner
+        </span>
+
+        <h1 className="text-4xl leading-tight font-extrabold tracking-tight md:text-6xl">
+          Organize your life.
+          <br />
+          <span className="text-indigo-600">One task at a time.</span>
+        </h1>
+
+        <p className="mt-6 max-w-lg text-lg leading-relaxed text-slate-500">
+          Welcome to TaskFlow! Take control of your day, organize your tasks,
+          and stay focused on what matters most. A simpler way to get things
+          done starts here.
+        </p>
+
+        <div className="mt-9 flex flex-wrap items-center gap-4">
+          <Link
+            href="/signup"
+            className="flex items-center gap-2 rounded-lg bg-indigo-600 px-6 py-3.5 font-semibold text-white transition hover:bg-indigo-700"
+          >
+            Start Organizing <ArrowRight size={18} />
+          </Link>
+
+          <Link
+            href="/signin"
+            className="rounded-lg border border-slate-300 px-6 py-3.5 font-semibold text-slate-700 transition hover:bg-slate-100"
+          >
+            Sign In
+          </Link>
         </div>
-        <h1 className="text-lg font-medium border-b text-center pb-2.5">OR</h1>
-        <Button className="w-full" variant="tertiary">
-          <FcGoogle />
-          Continue with Google
-        </Button>
-      </Form>
-    </div>
+
+        <p className="mt-8 text-sm text-slate-400">
+          ✓ Simple &nbsp; ✓ Organized &nbsp; ✓ Productive
+        </p>
+      </div>
+
+      {/* Task Preview */}
+      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xl shadow-indigo-100/50 md:p-8">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-xs font-bold tracking-widest text-slate-400">
+              YOUR WORKSPACE
+            </p>
+            <h2 className="mt-2 text-2xl font-bold">Today's Tasks</h2>
+          </div>
+          <span className="rounded-full bg-indigo-50 px-4 py-2 text-sm text-indigo-600">
+            My Day ☀️
+          </span>
+        </div>
+
+        {/* Progress */}
+        <div className="mt-8">
+          <div className="mb-3 flex justify-between text-sm">
+            <span className="text-slate-500">Daily progress</span>
+            <span className="font-bold text-indigo-600">60%</span>
+          </div>
+
+          <div className="h-2 overflow-hidden rounded-full bg-slate-100">
+            <div className="h-full w-[60%] rounded-full bg-indigo-600" />
+          </div>
+        </div>
+
+        <p className="mt-7 text-center text-sm text-slate-400">
+          Small steps lead to big achievements. 🚀
+        </p>
+      </div>
+    </section>
   );
 }
