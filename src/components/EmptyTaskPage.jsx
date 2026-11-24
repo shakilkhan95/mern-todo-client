@@ -33,7 +33,7 @@ const EmptyTasks = () => {
 
         {/* Add Task Button */}
         <Link
-          href="/todos/add-task"
+          href="/my-tasks/add-task"
           className="group mt-8 inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-indigo-200 transition-all duration-300 hover:-translate-y-1 hover:bg-indigo-700 hover:shadow-indigo-300"
         >
           <Plus size={19} />
