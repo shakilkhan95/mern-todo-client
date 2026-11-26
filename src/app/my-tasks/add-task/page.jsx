@@ -1,11 +1,29 @@
+"use client"
 import { Check } from "@gravity-ui/icons";
 import { Button, FieldError, Form, Input, Label, TextField, ListBox, Select} from "@heroui/react";
+import { useState } from "react";
+
+
+
+
 
 const AddTaskPage = () => {
+  const [priority, setPriority] = useState("");
+
+
+  const onSubmit = (e) => {
+  e.preventDefault();
+  const title = e.target.title.value;
+  const description = e.target.description.value;
+  const category = e.target.category.value
+  const categories = category.split(" ");
+  console.log(priority);
+}
+
     return (
         <div className="max-w-7xl mx-auto p-4">
             <h1 className="text-2xl font-bold text-center text-blue-600">Add a new task</h1>
-            <Form className="flex w-96 flex-col gap-4 max-w-7xl mx-auto mt-4 border p-6 rounded-md shadow-md">
+            <Form onSubmit={onSubmit} className="flex w-96 flex-col gap-4 max-w-7xl mx-auto mt-4 border p-6 rounded-md shadow-md">
                 <TextField
                     isRequired
                     name="title"
