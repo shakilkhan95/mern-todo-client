@@ -16,7 +16,6 @@ const handleSignOut = async () => {
 
 const Navbar = () => {
     const {data: session} = authClient.useSession();
-    console.log("Session data in Navbar:", session);
     const pathname = usePathname();
     
     return (
