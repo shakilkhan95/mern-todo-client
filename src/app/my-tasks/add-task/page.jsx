@@ -1,4 +1,5 @@
 "use client";
+import { authClient } from "@/lib/auth-client";
 import { Check } from "@gravity-ui/icons";
 import {
   Button,
@@ -11,17 +12,49 @@ import {
   Select,
 } from "@heroui/react";
 import { useState } from "react";
+import { MdPending } from "react-icons/md";
 
 const AddTaskPage = () => {
   const [priority, setPriority] = useState(null);
+  const {data:session} = authClient.useSession();
+  const user = session?.user;
 
   const onSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const todo = Object.fromEntries(formData);
-    todo.priority = priority;
+
+    const status = "pending";
+    const tags = todo.tags.split(",");
+    const isPinned = true;
+    const isArchived = false;
+    const updatedAt = null;
+    
     const date = new Date();
-    console.log(dueDate)
+    const createdAt = date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric"
+    });
+    const nextWeek = new Date(date);
+    nextWeek.setDate(date.getDate() + 7);
+    const dueDate = nextWeek.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+    
+    todo.priority = priority;
+    todo.dueDate = dueDate;
+    todo.status = status;
+    todo.tags = tags;
+    todo.isPinned = isPinned;
+    todo.isArchived = isArchived;
+    todo.createdAt = createdAt;
+    todo.updatedAt = updatedAt;
+    todo.userId = user?.id;
+    todo.userName = user?.name;
+
   };
 
   return (
